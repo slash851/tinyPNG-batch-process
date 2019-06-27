@@ -25,8 +25,6 @@ if (args[0]){
 	 defaultExtention = args[0]; 	 
 }
 
-// :todo remove return
-return;
 
 // create directory for original files
 if (!fs.existsSync(dir)) {
