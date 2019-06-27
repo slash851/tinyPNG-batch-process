@@ -9,12 +9,24 @@ const path = require('path');
 const fs = require('fs');
 const tinify = require("tinify");
 
+
 // IMPORTANT!
 // set your unique TinyPNG key
 tinify.key = "REPLACE_WITH_TINY_PNG_API_KEY!!!";
 
 //path for original photos
 var dir = './org';
+var defaultExtention = 'png';
+
+
+//take arguments from function
+const args = process.argv.slice(2)
+if (args[0]){
+	 defaultExtention = args[0]; 	 
+}
+
+// :todo remove return
+return;
 
 // create directory for original files
 if (!fs.existsSync(dir)) {
@@ -31,8 +43,8 @@ fs.readdir(directoryPath, function (err, files) {
     }
     //listing all files using forEach
     files.forEach(function (file) {
-        // process only files with the .png extension
-        if (file.indexOf('.png') != -1){
+        // process only files with the .defaultExtention extension
+        if (file.indexOf('.' + defaultExtention) != -1){
             processFile(file);
         }
     });
@@ -49,7 +61,7 @@ function processFile(filename) {
 
     fs.rename(oldPath, newPath, function (err) {
         if (err) throw err
-        console.log('Successfully renamed - AKA moved!')
+        console.log('Successfully moved!', filename, ' starting comression..');
 		
 		// after moving 
         const source = tinify.fromFile("org/" + filename);
